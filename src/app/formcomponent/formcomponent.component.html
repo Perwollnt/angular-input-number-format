@@ -1,1 +1,3 @@
-<input type="text" appFormattedNumber [(ngModel)]="myNumber">
+<form [formGroup]="myForm">
+    <input type="text" formControlName="myNumber" appFormattedNumber>
+  </form>

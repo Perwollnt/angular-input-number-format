@@ -1,3 +1,4 @@
+import { FormBuilder, FormGroup } from "@angular/forms"
 import { Component } from '@angular/core';
 
 @Component({
@@ -6,5 +7,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./formcomponent.component.css']
 })
 export class FormcomponentComponent {
-  myNumber!: number;
+  constructor(private formBuilder: FormBuilder) {
+    this.myForm = this.formBuilder.group({
+      myNumber: ['']
+    });
+  }
+
+  public myForm: FormGroup;
 }

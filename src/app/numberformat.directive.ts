@@ -1,16 +1,29 @@
-import { Directive, ElementRef, HostListener } from '@angular/core';
+import { Directive, ElementRef, HostListener, forwardRef } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Directive({
-  selector: '[appFormattedNumber]'
+  selector: '[appFormattedNumber]',
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => NumberformatDirective),
+      multi: true
+    }
+  ]
 })
-export class NumberformatDirective {
+export class NumberformatDirective implements ControlValueAccessor {
+  private innerValue: any;
+  private onChange!: (_: any) => void;
+  private onTouched!: () => void;
+
   constructor(private el: ElementRef) {}
 
-  @HostListener('input', ['$event'])
-  onInput(event: any) {
-    const input = event.target as HTMLInputElement;
-    const value = input.value.replace(/\D/g, ''); // Remove non-numeric characters
-    input.value = this.formatNumber(value);
+  @HostListener('input', ['$event.target.value'])
+  onInput(value: string) {
+    const numericValue = value.replace(/\D/g, ''); // Remove non-numeric characters
+    this.innerValue = numericValue;
+    this.onChange(this.innerValue);
+    this.el.nativeElement.value = this.formatNumber(numericValue);
   }
 
   formatNumber(value: string): string {
@@ -22,5 +35,22 @@ export class NumberformatDirective {
     }
 
     return formattedParts.join(' ');
+  }
+
+  writeValue(value: any) {
+    this.innerValue = value;
+    this.el.nativeElement.value = this.formatNumber(value);
+  }
+
+  registerOnChange(fn: (_: any) => void) {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: () => void) {
+    this.onTouched = fn;
+  }
+
+  setDisabledState(isDisabled: boolean) {
+    this.el.nativeElement.disabled = isDisabled;
   }
 }
