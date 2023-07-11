@@ -1,0 +1,21 @@
+.error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+.input-tooltip {
+    position: relative;
+}
+
+.input-tooltip:hover::after {
+    content: attr(data-error-message);
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: red;
+    color: white;
+    padding: 4px;
+    border-radius: 4px;
+    white-space: nowrap;
+}

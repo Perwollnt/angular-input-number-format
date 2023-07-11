@@ -1,5 +1,6 @@
-import { FormBuilder, FormGroup } from "@angular/forms"
+import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms"
 import { Component } from '@angular/core';
+import { AppComponent } from "../app.component";
 
 @Component({
   selector: 'app-formcomponent',
@@ -7,11 +8,18 @@ import { Component } from '@angular/core';
   styleUrls: ['./formcomponent.component.css']
 })
 export class FormcomponentComponent {
+  public nameLengh = AppComponent.maxNameLenght;
+
   constructor(private formBuilder: FormBuilder) {
     this.myForm = this.formBuilder.group({
-      myNumber: ['']
+      myNumber: [''],
+      name: ['']
     });
   }
 
   public myForm: FormGroup;
+
+  get nameControl() {
+    return this.myForm.get('name') as FormControl;
+  }
 }
