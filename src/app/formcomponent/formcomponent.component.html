@@ -1,9 +1,6 @@
 <form [formGroup]="myForm">
   <h1>number format</h1>
-  <input type="text" formControlName="myNumber" appFormattedNumber><br>
+  <input type="text" formControlName="myNumber"><br>
   <h1>Name lenght limit</h1>
-  <input type="text" formControlName="name" appNamelength>
-  <div *ngIf="nameControl.value.length >= nameLengh" class="info-message">
-    A maximum karakter limit {{nameLengh}}
-  </div>
+  <input type="text" formControlName="name"> <!--onchange="cando($event.target)"  -->
 </form>
